@@ -58,24 +58,38 @@ ball.speed_y = 4
 clock = time.Clock()
 run = True
 finish = False
-
+score_left_player = 0
+score_right_player = 0
+wallet_left_player = font.render('Рахунок' + str(score_left_player), 0.25, (255, 255, 255))
+wallet_right_player = font.render('Рахунок' + str(score_right_player), 0.25, (255, 255, 255))
 while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
     if not finish:
         window.fill(color)
+        wallet_left_player = font.render('Рахунок' + str(score_left_player), 0.25, (255, 255, 255))
+        wallet_right_player = font.render('Рахунок' + str(score_right_player), 0.25, (255, 255, 255))
         if ball.rect.x > 590:
             finish = True
             window.blit(win_left, (220, 10))
+            score_left_player += 1
         if ball.rect.x < 0:
             finish = True
             window.blit(win_right, (220, 10))
+            score_right_player +=1
+        window.blit(wallet_left_player,(20, 10))
+        window.blit(wallet_right_player, (400, 10))
         rocket1.update()
         rocket2.update_2()
         rocket1.reset()
         rocket2.reset()
         ball.update()
         ball.reset()
-        display.update()
-        clock.tick(60)
+    else:
+        finish = False
+        time.delay(3000)
+        ball.rect.x = 200
+        ball.rect.y = 200
+    display.update()
+    clock.tick(60)
